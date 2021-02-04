@@ -1,5 +1,5 @@
 # @ 2020, Copyright Amirmohammad Zarif
-# Compatible with firasimulator version 1.0.1 or higher
+# Compatible with AVISEngine version 1.0.1 or higher
 import AVISEngine
 import time
 import cv2
@@ -14,7 +14,7 @@ car.connect("127.0.0.1", 25001)
 counter = 0
 
 debug_mode = False
-#sleep for 2 second to make sure that client connected to the simulator 
+#sleep for 3 seconds to make sure that client connected to the simulator 
 time.sleep(3)
 try:
     while(True):
