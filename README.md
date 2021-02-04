@@ -87,7 +87,7 @@ car.connect("127.0.0.1", 25001)
 counter = 0
 
 debug_mode = True
-#sleep for 2 second to make sure that client connected to the simulator 
+#sleep for 2 seconds to make sure that client connected to the simulator 
 time.sleep(2)
 try:
     while(True):
