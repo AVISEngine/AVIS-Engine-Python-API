@@ -120,7 +120,7 @@ try:
             if(debug_mode):
                 print("Speed : ",carSpeed) 
                 #currently the angle between the sensors is 30 degree TODO : be able to change that from conf.py
-                print("Left : " + str(sensors[0]) + "   |   " + "Left : " + str(sensors[1])  +"   |   " + "Left : " + str(sensors[2]))
+                print("Left : " + str(sensors[0]) + "   |   " + "Middle : " + str(sensors[1])  +"   |   " + "Right : " + str(sensors[2]))
 
             #Showing the opencv type image
             cv2.imshow('frames', image)
