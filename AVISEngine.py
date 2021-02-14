@@ -67,7 +67,7 @@ class car():
         self.sensor_status = 1
         self.updateData()
         self.sock.sendall(self.data_str.encode("utf-8"))
-        recive = self.sock.recv(80000).decode("utf-8")
+        recive = self.sock.recv(131072).decode("utf-8")
         imageTagCheck = re.search('<image>(.*?)<\/image>', recive)
         sensorTagCheck = re.search('<sensor>(.*?)<\/sensor>', recive)
         speedTagCheck = re.search('<speed>(.*?)<\/speed>', recive)
