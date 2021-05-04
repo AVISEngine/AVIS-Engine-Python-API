@@ -97,7 +97,6 @@ class car():
             
         except:
             pass
-            #print("Unvalid Recive!")
             
 
     def getImage(self):
