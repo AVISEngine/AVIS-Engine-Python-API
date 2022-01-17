@@ -2,6 +2,34 @@
 A Python API Implemented for AVIS Engine(Autonomous Vehicles Intelligent simulation Software).
 
 # Changelog (Simulator)
+### - 2.1.0 (-Not Released: Planned for March, 2022)
+- Switching to ZMQ
+- Configuration file
+- Configurable Camera settings (FOV, Position, Mode, Bird-eye view, ...)
+- Configurable Post Processing (DOF, Bloom, Color Corrections, ...)
+- Semantic mode
+- Depth Camera 
+- Radar
+- Pub-sub pattern messaging system
+
+### - 2.0.1
+- Major API Update
+- Updated Image Encoding
+- Compressed TCP Packets
+- Added Utils.py
+- Added Config.py
+- Higher Resolution camera with better performance
+- Adjustable Camera Resolution
+- Message Compression Algorithm
+- Defined <EOF> tag in transfered data from simulator to client
+- Adjustable front sensor angle
+- Added KMP Search to find <EOF>
+
+### - 2.0.0 Major Update
+- Added a New City
+- Added Fog
+- Improvements
+
 ### - 1.2.0
 - Added localization and multilingual support. (English, Persian, Russian, France, German, Chinese, Italian, Spanish, Japanese, Korean, Turkish) 
 - Visual Improvements.

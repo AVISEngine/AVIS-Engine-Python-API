@@ -1,21 +1,26 @@
-# @ 2020, Copyright Amirmohammad Zarif
-# Compatible with AVISEngine version 1.0.1 or higher
+'''
+@ 2022, Copyright AVIS Engine
+Example Compatible with AVISEngine version 2.0.1 or higher
+''' 
 import AVISEngine
+import config
 import time
 import cv2
 
 #Calling the class
-car = AVISEngine.car()
+car = AVISEngine.Car()
 
 #connecting to the server (Simulator)
-car.connect("127.0.0.1", 25001)
+car.connect(config.SIMULATOR_IP, config.SIMULATOR_PORT)
 
 #Counter variable
 counter = 0
 
 debug_mode = False
-#sleep for 3 seconds to make sure that client connected to the simulator 
+
+#Sleep for 3 seconds to make sure that client connected to the simulator 
 time.sleep(3)
+
 try:
     while(True):
         #Counting the loops
@@ -27,12 +32,16 @@ try:
 
         #Set the Steering of the car -10 degree from center
         car.setSteering(-10)
+        
+        #Set the angle between sensor rays to 30 degrees, Use this only if you want to set it from python client
+        car.setSensorAngle(40) 
 
         #Get the data. Need to call it every time getting image and sensor data
         car.getData()
 
         #Start getting image and sensor data after 4 loops. for unclear some reason it's really important 
         if(counter > 4):
+
             #returns a list with three items which the 1st one is Left sensor data, the 2nd one is the Middle Sensor data, and the 3rd is the Right one.
             sensors = car.getSensors() 
             #EX) sensors[0] returns an int for left sensor data in cm
@@ -46,21 +55,14 @@ try:
             #Don't print data for better performance
             if(debug_mode):
                 print("Speed : ",carSpeed) 
-                #currently the angle between the sensors is 30 degree TODO : be able to change that from conf.py
                 print("Left : " + str(sensors[0]) + "   |   " + "Middle : " + str(sensors[1])  +"   |   " + "Right : " + str(sensors[2]))
 
-            #showing the opencv type image
+            #Showing the opencv type image
             cv2.imshow('frames', image)
-            #break the loop when q pressed
+            #Break the loop when q pressed
             if cv2.waitKey(10) == ord('q'):
                 break
             time.sleep(0.001)
-        #A brief sleep to make sure everything 
-        
+
 finally:
     car.stop()
-
-
-
-
-
