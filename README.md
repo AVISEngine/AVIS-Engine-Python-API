@@ -21,9 +21,9 @@ A Python API Implemented for AVIS Engine(Autonomous Vehicles Intelligent simulat
 - Higher Resolution camera with better performance
 - Adjustable Camera Resolution
 - Message Compression Algorithm
-- Defined <EOF> tag in transfered data from simulator to client
+- Defined ```<EOF>``` tag in transfered data from simulator to client
 - Adjustable front sensor angle
-- Added KMP Search to find <EOF>
+- Added KMP Search to find ```<EOF>```
 
 ### - 2.0.0 Major Update
 - Added a New City
