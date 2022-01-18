@@ -17,6 +17,8 @@ A Python API Implemented for AVIS Engine(Autonomous Vehicles Intelligent simulat
 - Updated Image Encoding
 - Compressed TCP Packets
 - Added Utils.py
+- Added Traffic System
+- Improved Lights
 - Added Config.py
 - Higher Resolution camera with better performance
 - Adjustable Camera Resolution
