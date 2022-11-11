@@ -1,5 +1,5 @@
 # AVIS Engine Python API
-A Python API Implemented for AVIS Engine(Autonomous Vehicles Intelligent simulation Software).
+A Python API implemented for AVIS Engine(Autonomous Vehicles Intelligent Simulation Software).
 
 # Changelog (Simulator)
 ### - 2.1.0 (-Not Released: Planned for March, 2023)
@@ -65,7 +65,7 @@ A Python API Implemented for AVIS Engine(Autonomous Vehicles Intelligent simulat
 
 # Installation 
 ## Simulator
-The Simulator is accessible from AVIS Engine Website.
+The Simulator is accessible from AVIS Engine website.
 | Simulator |
 |---|
 |[Download Version 1.2.0](https://AVISEngine.com) |
@@ -80,13 +80,13 @@ git clone https://github.com/AvisEngine/AVIS-Engine-Python-API
 Everything is ready to drive your simulated car.
 
 ## Requirements
-install requirements using the command below 
+Install requirements using the command below 
 
     pip install -r requirements.txt
 
 ## Simulator 
 Actually the most important thing you have to install is the simulator. It's your car and you have to drive it.
-The Simulator is the *'Server'* part of the Communication.
+The simulator is the *'Server'* part of the communication.
 
 # Drive!
 Open up the simulator and make sure it's running correctly as you run it.
@@ -176,7 +176,7 @@ car = AVISEngine.car()
 ```
 
 
-Replace the server "Server IP" and "port" with yours here. and Now you're connected to the Simulator.
+Replace the server "Server IP" and "port" with yours here. and Now you're connected to the simulator.
 
 ``` python
 car.connect("127.0.0.1", 25001)
