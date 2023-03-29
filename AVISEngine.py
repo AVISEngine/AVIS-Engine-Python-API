@@ -1,5 +1,5 @@
 '''
-@ 2022, Copyright AVIS Engine
+@ 2023, Copyright AVIS Engine
 '''
 
 import cv2
@@ -11,17 +11,17 @@ import numpy as np
 import utils
 
 __author__ = "Amirmohammad Zarif"
-__email__ = "amirmohammadzarif@avisengine.com"
+__email__ = "amir@avisengine.com"
 
 
 class Car():
     '''
-    AVIS Engine Main car class
+    AVIS Engine Main Car class
     
     Attributes
     ----------
 
-    Private:
+    Public:
         steering_value
         speed_value
         sensor_status

@@ -1,13 +1,12 @@
 '''
 @ 2022, Copyright AVIS Engine
 '''
-#Utils and Extra Functions for AVISEngine Class
+# Utils for AVISEngine Class
 import base64
 import cv2
 import numpy as np
 from PIL import Image
 import io
-import json
 
 
 __author__ = "Amirmohammad Zarif"
