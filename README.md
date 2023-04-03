@@ -68,7 +68,7 @@ A Python API implemented for AVIS Engine(Autonomous Vehicles Intelligent Simulat
 The Simulator is accessible from AVIS Engine website.
 | Simulator |
 |---|
-|[Download Version 1.2.0](https://AVISEngine.com) |
+|[Download Version 2.0.1](https://AVISEngine.com) |
 
 ## Packages
 ### Python
