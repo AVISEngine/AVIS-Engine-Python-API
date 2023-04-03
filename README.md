@@ -99,67 +99,75 @@ Open up the simulator and make sure it's running correctly as you run it.
 ![Image of Connection](http://avisengine.com/wp-content/uploads/2021/01/Screen-Shot-2021-01-25-at-1.01.41-AM.png)
 
 ### Python
-Go to the files you downloaded before. Open up Example.py
+Go to the files you downloaded before. Open up example.py
 
 ``` python
-# Compatible with AVIS Engine version 1.0.3 or higher
-import AVISEngine
+'''
+@ 2023, Copyright AVIS Engine
+- An Example Compatible with AVISEngine version 2.0.1 or higher
+''' 
+import avisengine
+import config
 import time
 import cv2
 
-#Calling the class
-car = AVISEngine.car()
+# Creating an instance of the Car class
+car = avisengine.Car()
 
-#connecting to the server (Simulator)
-car.connect("127.0.0.1", 25001)
+# Connecting to the server (Simulator)
+car.connect(config.SIMULATOR_IP, config.SIMULATOR_PORT)
 
-#Counter variable
+# Counter variable
 counter = 0
 
-debug_mode = True
-#sleep for 2 seconds to make sure that client connected to the simulator 
-time.sleep(2)
+debug_mode = False
+
+# Sleep for 3 seconds to make sure that client connected to the simulator 
+time.sleep(3)
+
 try:
     while(True):
-        #Counting the loops
-        
+        # Counting the loops
         counter = counter + 1
 
-        #Set the power of the engine of the car to 20, Negative number for reverse movement, Range [-100,100]
-        car.setSpeed(50)
+        # Set the power of the engine the car to 20, Negative number for reverse move, Range [-100,100]
+        car.setSpeed(20)
 
-        #Set the Steering of the car -10 degree from center
+        # Set the Steering of the car -10 degree from center, results the car to steer to the left
         car.setSteering(-10)
+        
+        # Set the angle between sensor rays to 30 degrees, Use this only if you want to set it from python client
+        car.setSensorAngle(40) 
 
-        #Get the data. Need to call it every time getting image and sensor data
+        # Get the data. Need to call it every time getting image and sensor data
         car.getData()
 
-        #Start getting image and sensor data after 4 loops. for unclear some reason it's really important 
+        # Start getting image and sensor data after 4 loops
         if(counter > 4):
-            #returns a list with three items which the 1st one is Left sensor data, the 2nd one is the Middle Sensor data, and the 3rd is the Right one.
-            sensors = car.getSensors() 
-            #EX) sensors[0] returns an int for left sensor data in cm
 
-            #returns an opencv image type array. if you use PIL you need to invert the color channels.
+            # Returns a list with three items which the 1st one is Left sensor data\
+            # the 2nd one is the Middle Sensor data, and the 3rd is the Right one.
+            sensors = car.getSensors() 
+
+            # Returns an opencv image type array. if you use PIL you need to invert the color channels.
             image = car.getImage()
 
-            #returns an integer which is the real time car speed in KMH
+            # Returns an integer which is the real time car speed in KMH
             carSpeed = car.getSpeed()
 
-            #Don't print data for better performance
             if(debug_mode):
-                print("Speed : ",carSpeed) 
-                #currently the angle between the sensors is 30 degree TODO : be able to change that from conf.py
-                print("Left : " + str(sensors[0]) + "   |   " + "Middle : " + str(sensors[1])  +"   |   " + "Right : " + str(sensors[2]))
-
-            #Showing the opencv type image
+                print(f"Speed : {carSpeed}") 
+                print(f'Left : {str(sensors[0])} | Middle : {str(sensors[1])} | Right : {str(sensors[2])}')
+            
+            # Showing the opencv type image
             cv2.imshow('frames', image)
-            #break the loop when q pressed
+
+
             if cv2.waitKey(10) == ord('q'):
                 break
+
             time.sleep(0.001)
-        #A brief sleep to make sure everything 
-        
+
 finally:
     car.stop()
 ```
@@ -189,10 +197,10 @@ Set the thottle and steering of the car by adding
 >2. Steering value Range : [-100,100] - "0 is Center"
 
 ``` python
-#Set the speed of the car
+# Set the speed of the car (This will not set the actual speed of the car, thus to achieve a certain speed, checking the speed feedback is required.)
 car.setSpeed(50)
 
-#Set the steering of the car
+# Set the steering of the car
 car.setSteering(0)
 ```
 
@@ -211,7 +219,7 @@ image = car.getImage()
 carSpeed = car.getSpeed()
 ```
 
-warning "It's highly recommended to add your Algorithms to the Example.py Code."
+Warning "It's highly recommended to add your Algorithms to the example.py Code."
     
 # Calibrate your Camera (Version 1.0.5 or higher).
 You can calibrate your camera with a Simulated Checkerboard.
@@ -221,4 +229,4 @@ Camera Calibration Test 1 | Camera Calibration Test 2
 ![Image of Calibration](http://avisengine.com/wp-content/uploads/2021/01/Screen-Shot-2020-08-11-at-12.35.39-AM.png) | ![Image of Calibration2](http://avisengine.com/wp-content/uploads/2021/01/Screen-Shot-2020-08-11-at-12.35.52-AM.png)
 
 
-last update : January 20, 2022
+last update : April 3, 2023
