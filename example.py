@@ -1,6 +1,6 @@
 '''
 @ 2023, Copyright AVIS Engine
-- An Example Compatible with AVISEngine version 2.0.1 or higher
+- An Example Compatible with AVISEngine version 2.0.1 / 1.2.4 (ACL Branch) or higher
 ''' 
 import avisengine
 import config
@@ -32,8 +32,9 @@ try:
         # Set the Steering of the car -10 degree from center, results the car to steer to the left
         car.setSteering(-10)
         
-        # Set the angle between sensor rays to 30 degrees, Use this only if you want to set it from python client
-        car.setSensorAngle(40) 
+        # Set the angle between sensor rays to 45 degrees, Use this only if you want to set it from python client
+        # Notice: Once it is set from the client, it cannot be changed using the GUI
+        car.setSensorAngle(45) 
 
         # Get the data. Need to call it every time getting image and sensor data
         car.getData()
