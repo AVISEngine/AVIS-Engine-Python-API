@@ -2,7 +2,7 @@
 A Python API implemented for AVIS Engine(Autonomous Vehicles Intelligent Simulation Software).
 
 # Changelog (Simulator)
-### - 2.1.0 (-Not Released: Planned for March, 2023)
+### - 2.1.0 (TBD)
 - Switching to ZMQ
 - Configuration file
 - Configurable Camera settings (FOV, Position, Mode, Bird-eye view, ...)
