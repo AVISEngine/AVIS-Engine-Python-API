@@ -21,6 +21,7 @@ debug_mode = False
 # Sleep for 3 seconds to make sure that client connected to the simulator 
 time.sleep(3)
 
+
 try:
     while(True):
         # Counting the loops
@@ -38,7 +39,9 @@ try:
 
         # Get the data. Need to call it every time getting image and sensor data
         car.getData()
+        
 
+        # Display the FPS on the frame
         # Start getting image and sensor data after 4 loops
         if(counter > 4):
 
@@ -56,14 +59,16 @@ try:
                 print(f"Speed : {carSpeed}") 
                 print(f'Left : {str(sensors[0])} | Middle : {str(sensors[1])} | Right : {str(sensors[2])}')
             
-            # Showing the opencv type image
-            cv2.imshow('frames', image)
+            if image is not None and image.any():
+                # Showing the opencv type image
+                cv2.imshow('frames', image)
+
 
 
             if cv2.waitKey(10) == ord('q'):
                 break
 
-            time.sleep(0.001)
+  
 
 finally:
     car.stop()
