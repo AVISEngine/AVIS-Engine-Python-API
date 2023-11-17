@@ -69,25 +69,24 @@ class Car():
             print("Failed to connect to ", server, port)
             return False
 
-  
     def recvall(self, socket):
         '''
         Function to receive all the data chunks
         '''
-        BUFFER_SIZE = 65536  # Increased buffer size for better performance
-        data = bytearray()  # Use a bytearray for better performance
+        BUFFER_SIZE = 131072
+        data_parts = []
+        eof_found = False
 
-        while True:
+        while not eof_found:
             part = socket.recv(BUFFER_SIZE)
-            data.extend(part)
+            data_parts.append(part)
+            data = b"".join(data_parts).decode("utf-8")
 
-            # Use KMP search to find the <EOF>, KMPSearch() returns -1 if the pattern was not found
-            # It is 9 times faster than the simple python search
-            if utils.KMPSearch(b"<EOF>", data) > -1:  # Convert "<EOF>" to bytes              
-                break
+            # Use string search to find the <EOF>
+            if "<EOF>" in data:
+                eof_found = True
 
-        return data.decode("utf-8")
-
+        return data
         
     def setSteering(self,steering):
         '''
