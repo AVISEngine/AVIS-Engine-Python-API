@@ -47,7 +47,9 @@ class Car():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     #Data format for request
-    data_str = f"Speed:{speed_value},Steering:{steering_value},ImageStatus:{image_mode},SensorStatus:{sensor_status},GetSpeed:{get_Speed},SensorAngle:{sensor_angle}"
+    data_arr = [speed_value, steering_value, image_mode, sensor_status, get_Speed, sensor_angle]
+    _data_format = "Speed:{},Steering:{},ImageStatus:{},SensorStatus:{},GetSpeed:{},SensorAngle:{}"
+    data_str = _data_format.format(data_arr[0], data_arr[1], data_arr[2], data_arr[3], data_arr[4], data_arr[5])
     
     image = None
     sensors = None
