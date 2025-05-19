@@ -28,7 +28,7 @@ setup(
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.8",
     install_requires=[
         "numpy>=1.18.3",
         "opencv-contrib-python>=4.2.0.34",

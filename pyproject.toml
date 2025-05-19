@@ -7,7 +7,7 @@ name = "avisengine"
 version = "0.1.3"
 description = "Python API for AVIS Engine Simulator - A robust simulation platform for autonomous vehicle development"
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.8"
 license = {text = "MIT"}
 keywords = ["autonomous", "vehicle", "simulator", "engine", "avis"]
 authors = [
