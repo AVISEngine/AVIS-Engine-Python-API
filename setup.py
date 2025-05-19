@@ -30,13 +30,13 @@ setup(
     ],
     python_requires=">=3.8",
     install_requires=[
-        "numpy>=1.18.3",
-        "opencv-contrib-python>=4.2.0.34",
-        "opencv-python>=4.2.0.34",
-        "Pillow>=7.1.2",
+        "numpy>=1.21.0",
+        "opencv-contrib-python>=4.8.0",
+        "opencv-python>=4.8.0",
+        "Pillow>=9.0.0",
         "PySocks>=1.7.1",
-        "PyYAML>=5.3.1",
-        "regex>=2020.4.4",
-        "requests>=2.22.0"
+        "PyYAML>=6.0.0",
+        "regex>=2023.0.0",
+        "requests>=2.31.0"
     ],
 )
