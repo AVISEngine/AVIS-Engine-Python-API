@@ -1,83 +1,74 @@
 '''
 @ 2025, Copyright AVIS Engine
 - An Example Compatible with AVISEngine version 2.0.1 / 1.2.4 (ACL Branch) or higher
-
-This example demonstrates basic usage of the AVIS Engine API:
-- Connecting to the simulator
-- Controlling the car (speed and steering)
-- Reading sensor data
-- Processing camera feed
-- Displaying real-time FPS
 ''' 
 import avisengine
 import config
 import time
 import cv2
-import argparse
-import sys
 
-def main():
-    # Set up command line argument parsing
-    parser = argparse.ArgumentParser(description="AVIS Engine Example Client")
-    parser.add_argument('--ip', type=str, default=config.SIMULATOR_IP, help='Simulator IP address')
-    parser.add_argument('--port', type=int, default=config.SIMULATOR_PORT, help='Simulator port')
-    parser.add_argument('--debug', action='store_true', help='Enable debug mode for detailed sensor output')
-    args = parser.parse_args()
+# Creating an instance of the Car class
+car = avisengine.Car()
 
-    # Initialize and connect to the simulator using context manager for automatic cleanup
-    with avisengine.Car() as car:
-        if not car.connect(args.ip, args.port):
-            print("Could not connect to simulator. Exiting.")
-            sys.exit(1)
+# Connecting to the server (Simulator)
+car.connect(config.SIMULATOR_IP, config.SIMULATOR_PORT)
 
-        # Initialize control variables
-        debug_mode = args.debug
+# Counter variable
+counter = 0
+
+debug_mode = False
+
+# Sleep for 3 seconds to make sure that client connected to the simulator 
+time.sleep(3)
+
+
+try:
+    while(True):
+        # Counting the loops
+        counter = counter + 1
+
+        # Set the power of the engine the car to 20, Negative number for reverse move, Range [-100,100]
+        car.setSpeed(20)
+
+        # Set the Steering of the car -10 degree from center, results the car to steer to the left
+        car.setSteering(-10)
         
-        # FPS calculation variables
-        prev_time = time.time()
-        fps = 0
+        # Set the angle between sensor rays to 45 degrees, Use this only if you want to set it from python client
+        # Notice: Once it is set from the client, it cannot be changed using the GUI
+        car.setSensorAngle(45) 
 
-        try:
-            while True:
-                # Set car controls
-                car.setSpeed(20)  # Set forward speed (range: -100 to 100)
-                car.setSteering(-10)  # Turn slightly left (-ve for left, +ve for right)
-                car.setSensorAngle(45)  # Set angle between sensor rays
-                
-                # Request new data from simulator (camera frame, sensors, speed)
-                car.getData()
+        # Get the data. Need to call it every time getting image and sensor data
+        car.getData()
+        
 
-                # Get latest sensor readings and car state
-                sensors = car.getSensors()  # Returns [Left, Middle, Right] distances
-                image = car.getImage()  # Get camera frame
-                carSpeed = car.getSpeed()  # Get current speed in km/h
+        # Display the FPS on the frame
+        # Start getting image and sensor data after 4 loops
+        if(counter > 4):
 
-                # Print debug information if enabled
-                if debug_mode:
-                    print(f"Speed : {carSpeed}")
-                    print(f'Left : {sensors[0]} | Middle : {sensors[1]} | Right : {sensors[2]}')
+            # Returns a list with three items which the 1st one is Left sensor data\
+            # the 2nd one is the Middle Sensor data, and the 3rd is the Right one.
+            sensors = car.getSensors() 
 
-                # Process and display camera feed if available
-                if image is not None and hasattr(image, 'any') and image.any():
-                    # Calculate and update FPS
-                    curr_time = time.time()
-                    fps = 1.0 / (curr_time - prev_time) if prev_time else 0
-                    prev_time = curr_time
-                    
-                    # Draw FPS counter on frame
-                    cv2.putText(image, f"FPS: {fps:.2f}", (10, 30), 
-                              cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
-                    cv2.imshow('frames', image)
+            # Returns an opencv image type array. if you use PIL you need to invert the color channels.
+            image = car.getImage()
 
-                # Check for 'q' key press to quit
-                if cv2.waitKey(10) & 0xFF == ord('q'):
-                    break
-                    
-        except KeyboardInterrupt:
-            print("\nInterrupted by user.")
-        finally:
-            # Clean up OpenCV windows
-            cv2.destroyAllWindows()
+            # Returns an integer which is the real time car speed in KMH
+            carSpeed = car.getSpeed()
 
-if __name__ == "__main__":
-    main()
+            if(debug_mode):
+                print(f"Speed : {carSpeed}") 
+                print(f'Left : {str(sensors[0])} | Middle : {str(sensors[1])} | Right : {str(sensors[2])}')
+            
+            if image is not None and image.any():
+                # Showing the opencv type image
+                cv2.imshow('frames', image)
+
+
+
+            if cv2.waitKey(10) == ord('q'):
+                break
+
+  
+
+finally:
+    car.stop()
