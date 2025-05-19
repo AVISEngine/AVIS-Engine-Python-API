@@ -1,5 +1,5 @@
 '''
-@ 2023, Copyright AVIS Engine
+@ 2025, Copyright AVIS Engine
 '''
 
 import cv2
@@ -74,7 +74,7 @@ class Car():
         '''
         Function to receive all the data chunks
         '''
-        BUFFER_SIZE = 65536  # Increased buffer size for better performance
+        BUFFER_SIZE = 131072  # Increased buffer size for better performance
         data = bytearray()  # Use a bytearray for better performance
 
         while True:
