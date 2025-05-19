@@ -1,232 +1,220 @@
 # AVIS Engine Python API
-A Python API implemented for AVIS Engine(Autonomous Vehicles Intelligent Simulation Software).
 
-# Changelog (Simulator)
-### - 2.1.0 (TBD)
-- Switching to ZMQ
-- Configuration file
-- Configurable Camera settings (FOV, Position, Mode, Bird-eye view, ...)
-- Configurable Post Processing (DOF, Bloom, Color Corrections, ...)
-- Semantic mode
-- Depth Camera 
-- Radar
-- Pub-sub pattern messaging system
+A Python API for AVIS Engine (Autonomous Vehicles Intelligent Simulation Software) - a robust simulation platform for autonomous vehicle development and testing.
 
-### - 2.0.1
-- Major API Update
-- Updated Image Encoding
-- Compressed TCP Packets
-- Added Utils.py
-- Added Traffic System
-- Improved Lights
-- Added Config.py
-- Higher Resolution camera with better performance
-- Adjustable Camera Resolution
-- Message Compression Algorithm
-- Defined ```<EOF>``` tag in transfered data from simulator to client
-- Adjustable front sensor angle
-- Added KMP Search to find ```<EOF>```
+[![Python Version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Simulator Version](https://img.shields.io/badge/simulator-v2.1.0--beta-orange.svg)](https://avisengine.com)
 
-### - 2.0.0 Major Update
-- Added a New City
-- Added Fog
-- Improvements
+## Overview
 
-### - 1.2.0
-- Added localization and multilingual support. (English, Persian, Russian, France, German, Chinese, Italian, Spanish, Japanese, Korean, Turkish) 
-- Visual Improvements.
-- Performance Improvements.
-- Main Menu redesign.
-- Added "About this simulator".
-- Added "Terms of use".
+AVIS Engine provides a realistic simulation environment for developing and testing autonomous vehicle algorithms. This Python API allows you to easily interface with the simulator, control vehicles, and collect sensor data.
 
-### - 1.0.7
-- Improved Performance.
-- Added TopSpeed Slider.
-- Added "Right lane Only" Toggle.
-- Added "Visible Sensor detection lines" Toggle.
-- Added a Slider to set the angle between sensors.
-- UI/UX Improvements and Updates on Top Panel for better experience. (Headers in each section)
-- Improved lighting 
-- Replaced the vehicle's 3d model with a low-poly version of it to Improve the performance.
-- New method of counting checkpoints and laps. No order-sensitive counting system in this new version.
-- New Skyboxes on each map.
-- New Terrain map on each map.
-- Updated Textures.
+## Features
 
-### - 1.0.6
-- Changed the Tags material contrast to make it easier to read (Urban).
-- Added a border to signs and tags (Urban).
+- Control vehicle throttle and steering
+- Access real-time sensor data (distance sensors, radar, cameras)
+- Retrieve vehicle telemetry (speed, position)
+- Configure camera settings (FOV, position, resolution) 
+- Multiple simulation environments (race track, urban settings)
+- Support for semantic segmentation and depth cameras
 
-### - 1.0.5
-- Fixed Raycast hit on the second checkpoint in "Race Track 1"
-- Added Camera Calibration Checkerboard.
-- Added an Urban Track.
+## Installation
 
-# Installation 
-## Simulator
-The Simulator is accessible from AVIS Engine website.
-| Simulator |
-|---|
-|[Download Version 2.0.1](https://AVISEngine.com) |
+### Requirements
 
-## Packages
-### Python
-#### &emsp; I) Using git
-&emsp;&emsp;&emsp; Open up your terminal and clone the python repository using git.
+```bash
+pip install -r requirements.txt
+```
+
+### Python API
+
+#### Option 1: Using git
+
 ```bash
 git clone https://github.com/AvisEngine/AVIS-Engine-Python-API
+cd AVIS-Engine-Python-API
 ```
-Everything is ready to drive your simulated car.
 
-## Requirements
-Install requirements using the command below 
+#### Option 2: Using pip (Coming soon)
 
-    pip install -r requirements.txt
+```bash
+pip install avisengine
+```
 
-## Simulator 
-Actually the most important thing you have to install is the simulator. It's your car and you have to drive it.
-The simulator is the *'Server'* part of the communication.
+### Simulator
 
-# Drive!
-Open up the simulator and make sure it's running correctly as you run it.
-- 1. Choose a Track
-- 2. Click on "Open Info Panel"
-- 3. Type in the local ip you want the simulator to run on. (Default : 127.0.0.1)
-- 4. Type in the port you want the simulator to run on. (Default : 25001)
-- 5. Click on "Start Server"
+Download the latest simulator from the [AVIS Engine website](https://avisengine.com).
 
-![Image of Connection](http://avisengine.com/wp-content/uploads/2021/01/Screen-Shot-2021-01-25-at-1.01.41-AM.png)
+| Version | Link |
+|---------|------|
+| 2.1.0 (Latest Beta) | [Download](https://avisengine.com) |
+| 2.0.1 (Stable) | [Download](https://avisengine.com/v2.0.1) |
 
-### Python
-Go to the files you downloaded before. Open up example.py
+## Getting Started
 
-``` python
-'''
-@ 2023, Copyright AVIS Engine
-- An Example Compatible with AVISEngine version 2.0.1 or higher
-''' 
+### 1. Launch the Simulator
+
+1. Open the simulator
+2. Select a track
+3. Click "Open Info Panel"
+4. Configure server settings:
+   - IP Address (Default: 127.0.0.1)
+   - Port (Default: 25001)
+5. Click "Start Server"
+
+![Simulator Connection Panel](http://avisengine.com/wp-content/uploads/2021/01/Screen-Shot-2021-01-25-at-1.01.41-AM.png)
+
+### 2. Connect and Control the Vehicle
+
+Here's a basic example to connect to the simulator and control the vehicle:
+
+```python
 import avisengine
 import config
 import time
 import cv2
 
-# Creating an instance of the Car class
+# Create car instance
 car = avisengine.Car()
 
-# Connecting to the server (Simulator)
+# Connect to simulator
 car.connect(config.SIMULATOR_IP, config.SIMULATOR_PORT)
 
-# Counter variable
-counter = 0
-
-debug_mode = False
-
-# Sleep for 3 seconds to make sure that client connected to the simulator 
+# Wait for connection to establish
 time.sleep(3)
 
 try:
-    while(True):
-        # Counting the loops
-        counter = counter + 1
-
-        # Set the power of the engine the car to 20, Negative number for reverse move, Range [-100,100]
+    while True:
+        # Set throttle (range: -100 to 100)
         car.setSpeed(20)
-
-        # Set the Steering of the car -10 degree from center, results the car to steer to the left
+        
+        # Set steering (range: -100 to 100)
         car.setSteering(-10)
         
-        # Set the angle between sensor rays to 30 degrees, Use this only if you want to set it from python client
-        car.setSensorAngle(40) 
-
-        # Get the data. Need to call it every time getting image and sensor data
+        # Configure sensors
+        car.setSensorAngle(40)
+        
+        # Get updated data
         car.getData()
-
-        # Start getting image and sensor data after 4 loops
-        if(counter > 4):
-
-            # Returns a list with three items which the 1st one is Left sensor data\
-            # the 2nd one is the Middle Sensor data, and the 3rd is the Right one.
-            sensors = car.getSensors() 
-
-            # Returns an opencv image type array. if you use PIL you need to invert the color channels.
-            image = car.getImage()
-
-            # Returns an integer which is the real time car speed in KMH
-            carSpeed = car.getSpeed()
-
-            if(debug_mode):
-                print(f"Speed : {carSpeed}") 
-                print(f'Left : {str(sensors[0])} | Middle : {str(sensors[1])} | Right : {str(sensors[2])}')
+        
+        # Retrieve sensor data
+        sensors = car.getSensors()  # [left, middle, right] distances in cm
+        
+        # Get camera image (OpenCV format)
+        image = car.getImage()
+        
+        # Get vehicle speed (km/h)
+        speed = car.getSpeed()
+        
+        # Display image
+        cv2.imshow('Camera', image)
+        if cv2.waitKey(10) == ord('q'):
+            break
             
-            # Showing the opencv type image
-            cv2.imshow('frames', image)
-
-
-            if cv2.waitKey(10) == ord('q'):
-                break
-
-            time.sleep(0.001)
-
+        time.sleep(0.001)
+        
 finally:
+    # Ensure the car stops when the program exits
     car.stop()
 ```
 
-#### Getting Started
-Import the AVISEngine Class
-``` python
-import AVISEngine
-```
+## API Reference
 
-Call the class
-``` python
-car = AVISEngine.car()
-```
+### Car Class
 
+#### Connection Methods
+- `connect(ip, port)` - Connect to the simulator
+- `getData()` - Retrieve the latest data from the simulator
+- `stop()` - Stop the car and close the connection
 
-Replace the server "Server IP" and "port" with yours here. and Now you're connected to the simulator.
+#### Control Methods
+- `setSpeed(value)` - Set throttle (-100 to 100)
+- `setSteering(value)` - Set steering angle (-100 to 100)
+- `setSensorAngle(angle)` - Set the angle between sensor rays
 
-``` python
-car.connect("127.0.0.1", 25001)
+#### Data Retrieval Methods
+- `getSensors()` - Returns [left, middle, right] sensor distances in cm
+- `getImage()` - Returns camera image as OpenCV compatible array
+- `getSpeed()` - Returns current speed in km/h
 
-```
+## Camera Calibration
 
-#### Controlling the Car
-Set the thottle and steering of the car by adding
->1. Speed value Range : [-100,100] - "0 turns off the engine"
->2. Steering value Range : [-100,100] - "0 is Center"
+The simulator includes a checkerboard pattern for camera calibration. Access this feature in simulator version 1.0.5 or higher.
 
-``` python
-# Set the speed of the car (This will not set the actual speed of the car, thus to achieve a certain speed, checking the speed feedback is required.)
-car.setSpeed(50)
+| Calibration Example 1 | Calibration Example 2 |
+|-----------------------|-----------------------|
+| ![Calibration Example 1](http://avisengine.com/wp-content/uploads/2021/01/Screen-Shot-2020-08-11-at-12.35.39-AM.png) | ![Calibration Example 2](http://avisengine.com/wp-content/uploads/2021/01/Screen-Shot-2020-08-11-at-12.35.52-AM.png) |
 
-# Set the steering of the car
-car.setSteering(0)
-```
+## Changelog
 
-#### Getting the Data
-You Can get access to the data such as "Sensors", "Current Speed" and "Image" by adding these lines.
->1. car.getSensors() : returns a list with three items which the 1st one is Left sensor data, the 2nd one is the Middle Sensor data, and the 3rd is the Right one. the values are in cm.
->2. car.getImage() : returns an opencv image type array. if you are using PIL you'll need to invert the color channels.
->3. car.getSpeed() : returns an integer which is the real time car speed in KMH
+### 2.1.0 (Coming Soon)
+- ZMQ communication protocol
+- Configuration file support
+- Configurable camera settings (FOV, position, bird's-eye view)
+- Configurable post-processing (DOF, bloom, color corrections)
+- Semantic segmentation mode
+- Depth camera support
+- Radar sensor support
+- Pub-sub pattern messaging system
 
-``` python
-sensors = car.getSensors() 
-#EX) sensors[0] returns an int for left sensor data in cm
+### 2.0.1
+- Major API update
+- Updated image encoding
+- Compressed TCP packets
+- Added Utils.py and Config.py
+- Added traffic system
+- Improved lighting
+- Higher resolution camera with better performance
+- Adjustable camera resolution
+- Message compression algorithm
+- Defined `<EOF>` tag in transferred data
+- Adjustable front sensor angle
+- Added KMP search for `<EOF>` detection
 
-image = car.getImage()
+### 2.0.0
+- Added new city environment
+- Added fog effects
+- General improvements
 
-carSpeed = car.getSpeed()
-```
+### 1.2.0
+- Added localization (English, Persian, Russian, French, German, Chinese, Italian, Spanish, Japanese, Korean, Turkish)
+- Visual and performance improvements
+- Main menu redesign
+- Added "About this simulator" and "Terms of use"
 
-Warning "It's highly recommended to add your Algorithms to the example.py Code."
-    
-# Calibrate your Camera (Version 1.0.5 or higher).
-You can calibrate your camera with a Simulated Checkerboard.
+### 1.0.7
+- Improved performance
+- Added top speed slider
+- Added "Right lane Only" toggle
+- Added "Visible Sensor detection lines" toggle
+- Added angle setting between sensors
+- UI/UX improvements
+- Improved lighting
+- Low-poly vehicle model for better performance
+- New checkpoint counting system
+- New skyboxes and terrain maps
+- Updated textures
 
-Camera Calibration Test 1 | Camera Calibration Test 2
------------- | -------------
-![Image of Calibration](http://avisengine.com/wp-content/uploads/2021/01/Screen-Shot-2020-08-11-at-12.35.39-AM.png) | ![Image of Calibration2](http://avisengine.com/wp-content/uploads/2021/01/Screen-Shot-2020-08-11-at-12.35.52-AM.png)
+### 1.0.6
+- Improved tag material contrast (Urban)
+- Added borders to signs and tags (Urban)
 
+### 1.0.5
+- Fixed raycast hit detection
+- Added camera calibration checkerboard
+- Added urban track
 
-last update : April 3, 2023
+## License
+
+MIT License - See LICENSE file for details
+
+## Support
+
+For questions, issues, or feature requests:
+- [GitHub Issues](https://github.com/AvisEngine/AVIS-Engine-Python-API/issues)
+- [Contact Support](https://avisengine.com/contact)
+
+---
+
+Last updated: May 19, 2025
