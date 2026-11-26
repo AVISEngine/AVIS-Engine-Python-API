@@ -13,6 +13,10 @@ car = avisengine.Car()
 # Connecting to the server (Simulator)
 car.connect(config.SIMULATOR_IP, config.SIMULATOR_PORT)
 
+# Or drive the AVIS Sandbox in your browser instead (academy.avisengine.com): comment out the
+# line above and use the line below. It prints a pairing code for the Sandbox's "Laptop Python".
+# car.connectSandbox()
+
 # Counter variable
 counter = 0
 
