@@ -1,8 +1,8 @@
 # AVIS Engine Python API
 
-A Python API for AVIS Engine (Autonomous Vehicles Intelligent Simulation Software) - a robust simulation platform for autonomous vehicle development and testing.
+A Python API for AVIS Engine (Autonomous Vehicles Intelligent Simulation Software), a robust simulation platform for autonomous vehicle development and testing. It drives both the AVIS Engine desktop simulator and the [AVIS Academy](https://academy.avisengine.com) web Sandbox, which runs in your browser with nothing to download.
 
-[![Python Version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Simulator Version](https://img.shields.io/badge/simulator-v2.1.0--beta-orange.svg)](https://avisengine.com)
 
@@ -21,25 +21,18 @@ AVIS Engine provides a realistic simulation environment for developing and testi
 
 ## Installation
 
-### Requirements
+#### Option 1: Using pip
 
 ```bash
-pip install -r requirements.txt
+pip install avisengine
 ```
 
-### Python API
-
-#### Option 1: Using git
+#### Option 2: Using git
 
 ```bash
 git clone https://github.com/AvisEngine/AVIS-Engine-Python-API
 cd AVIS-Engine-Python-API
-```
-
-#### Option 2: Using pip (Coming soon)
-
-```bash
-pip install avisengine
+pip install -e .
 ```
 
 ### Simulator
@@ -119,12 +112,69 @@ finally:
     car.stop()
 ```
 
+## The web Sandbox (AVIS Academy)
+
+The [AVIS Academy](https://academy.avisengine.com) Sandbox is a simulator in your browser. This
+library lets you drive it from Python on your own computer, with your own editor and libraries
+(OpenCV, PyTorch, ROS). You can write the script in either of two ways.
+
+### setup() and loop(), like the Sandbox editor
+
+```python
+# my_driver.py
+from avisengine import car
+
+def setup():
+    car.setSpeed(30)
+
+def loop():
+    img = car.getImage()          # numpy array (120, 160, 3), BGR like OpenCV
+    sensors = car.getSensors()    # [left, middle, right] in cm
+    car.setSteering(0)
+```
+
+```bash
+python -m avisengine my_driver.py
+```
+
+This is the same code as the Sandbox's own editor, with the same API (`getImage`, `getDepth`,
+`getSemanticLabels`, `getIMU`, `getGNSS`, `setControl` and more). Each Run in the browser loads
+the file again, so edits apply on the next Run. See `example_sandbox.py`.
+
+### A classic loop
+
+Existing scripts work by changing one line:
+
+```python
+car = avisengine.Car()
+car.connectSandbox()          # instead of car.connect(ip, port)
+while True:
+    car.setSpeed(20)
+    car.getData()             # one simulation step
+    image = car.getImage()
+```
+
+### Connecting
+
+Both print a port and a six-digit pairing code. In the Sandbox, open **Laptop Python**, enter
+them and press **Connect**, then **Run**. The simulator waits for your code at every control step
+(each `loop()` call, or each `getData()` call), so results do not depend on how fast your
+computer is.
+
+The connection stays on your computer: the script listens on 127.0.0.1 only, accepts only the
+AVIS Academy page, and needs the pairing code. Graded practices always run in the browser.
+
+In the Sandbox, `setSpeed` and `setSteering` take percent (-100 to 100), `getSpeed()` on the
+classic `Car` is km/h as with the desktop simulator, and `setSensorAngle` is set in the Sandbox's
+Sensors window instead.
+
 ## API Reference
 
 ### Car Class
 
 #### Connection Methods
-- `connect(ip, port)` - Connect to the simulator
+- `connect(ip, port)` - Connect to the desktop simulator
+- `connectSandbox(port=8765)` - Wait for the web Sandbox to connect (prints a pairing code)
 - `getData()` - Retrieve the latest data from the simulator
 - `stop()` - Stop the car and close the connection
 
@@ -147,6 +197,12 @@ The simulator includes a checkerboard pattern for camera calibration. Access thi
 | ![Calibration Example 1](http://avisengine.com/wp-content/uploads/2021/01/Screen-Shot-2020-08-11-at-12.35.39-AM.png) | ![Calibration Example 2](http://avisengine.com/wp-content/uploads/2021/01/Screen-Shot-2020-08-11-at-12.35.52-AM.png) |
 
 ## Changelog
+
+### Python API 0.2.0
+- Drive the AVIS Academy web Sandbox: `python -m avisengine my_driver.py` (setup/loop) or `car.connectSandbox()` (classic loop)
+- Installable package with `pip install avisengine`
+- Fewer dependencies (numpy, opencv-python, Pillow, websockets)
+- Tests for the desktop protocol and the Sandbox link
 
 ### 2.1.0 (Coming Soon)
 - ZMQ communication protocol
@@ -217,4 +273,4 @@ For questions, issues, or feature requests:
 
 ---
 
-Last updated: May 19, 2025
+Last updated: November 26, 2026
